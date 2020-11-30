@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-input type="text" placeholder="Awesome Input" [(ngModel)]="qrdata"></ion-input>
+
+  <button ion-button full color="secondary" (click)="create()">Generate</button>
+  <button ion-button full color="secondary" (click)="clear()">Clear</button>
+
+  <ion-card *ngIf="createCode">
+    <ngx-qrcode [value]="createCode"></ngx-qrcode>
+    <ion-card-content>
+      Your QR Code: {{createCode}}
+    </ion-card-content>
+  </ion-card>
+
+
+
+  <ion-button (click)="StartCanning()" expand="full" color="danger" shape="round">
+    Click me
+  </ion-button>
+
+</ion-content>
