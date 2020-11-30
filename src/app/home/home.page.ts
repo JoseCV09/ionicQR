@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,7 @@ export class HomePage {
   qrdata: any;
   qrScan: any;
   createCode: any;
-  constructor(public platform: Platform, public qr: QRScanner, public dialog: Dialogs) {
+  constructor(public toastController: ToastController, public platform: Platform, public qr: QRScanner, public dialog: Dialogs) {
     this.platform.backButton.subscribeWithPriority(0, () => {
       document.getElementsByTagName("body")[0].style.opacity = "1";
       this.qrScan.unsubsribe();
@@ -29,7 +29,7 @@ export class HomePage {
           this.qrScan = this.qr.scan().subscribe((textFound) => {
             document.getElementsByTagName("body")[0].style.opacity = "1";
             this.qrScan.unsubsribe();
-            this.dialog.alert(textFound);
+            this.presentToast(textFound);
           }, (err) => {
             this.dialog.alert(JSON.stringify(err));
           })
@@ -49,4 +49,12 @@ export class HomePage {
     this.createCode = '';
   }
 
+
+  async presentToast(data: any) {
+    const toast = await this.toastController.create({
+      message: data,
+      duration: 2000
+    });
+    toast.present();
+  }
 }
